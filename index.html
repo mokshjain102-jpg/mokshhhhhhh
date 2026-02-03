@@ -1,137 +1,181 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>Valentine 💘</title>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Comic Sans MS', cursive;
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#ff3d6e,#ff758f);
+  font-family:'Comic Sans MS',cursive;
+  color:white;
+  overflow:hidden;
+  text-align:center;
 }
 
-body {
-  height: 100vh;
-  overflow: hidden;
-  background: linear-gradient(135deg, #ff4d6d, #ff758f);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
+.box{
+  background:rgba(0,0,0,0.35);
+  padding:40px;
+  border-radius:25px;
+  box-shadow:0 0 30px rgba(255,255,255,0.4);
+  animation:pop 1s ease;
+  position:relative;
 }
 
-.container {
-  text-align: center;
-  background: rgba(0,0,0,0.25);
-  padding: 35px;
-  border-radius: 25px;
-  box-shadow: 0 0 30px rgba(255,255,255,0.3);
-  animation: pop 1s ease;
+@keyframes pop{
+  from{transform:scale(0.5);opacity:0;}
+  to{transform:scale(1);opacity:1;}
 }
 
-@keyframes pop {
-  from { transform: scale(0.6); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+h1{
+  font-size:2.3rem;
+  animation:glow 2s infinite alternate;
 }
 
-h1 {
-  font-size: 2.4rem;
-  margin-bottom: 20px;
+@keyframes glow{
+  from{text-shadow:0 0 10px #fff;}
+  to{text-shadow:0 0 25px #ffdde1;}
 }
 
-button {
-  padding: 12px 30px;
-  font-size: 20px;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  margin: 10px;
+button{
+  padding:12px 30px;
+  font-size:18px;
+  border:none;
+  border-radius:30px;
+  margin:10px;
+  cursor:pointer;
 }
 
-#yes {
-  background: #00ff9c;
+#yes{background:#00ff9c;}
+#no{background:#ff1744; position:absolute;}
+
+.heart{
+  position:absolute;
+  font-size:20px;
+  animation:float 6s linear infinite;
 }
 
-#no {
-  background: #ff2e63;
-  position: absolute;
+@keyframes float{
+  from{transform:translateY(100vh);}
+  to{transform:translateY(-10vh);}
 }
 
-/* Floating hearts */
-.heart {
-  position: absolute;
-  color: rgba(255,255,255,0.7);
-  font-size: 20px;
-  animation: float 6s linear infinite;
-}
-
-@keyframes float {
-  from { transform: translateY(100vh); opacity: 1; }
-  to { transform: translateY(-10vh); opacity: 0; }
+.countdown{
+  margin-top:10px;
+  font-size:1.2rem;
+  color:#ffe6eb;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-  <h1>💖 Will you be my Valentine, Riya? 💖</h1>
-  <button id="yes" onclick="yesClick()">YES 💕</button>
+<div class="box" id="box">
+  <h1 id="question">💖 Will you be my Valentine, Riya? 💖</h1>
+  <div class="countdown" id="countdown"></div>
+  <button id="yes" onclick="yesStep()">YES 💕</button>
   <button id="no" onclick="moveNo()">NO 💔</button>
 </div>
 
 <script>
-/* HEART GENERATOR */
-setInterval(() => {
-  const heart = document.createElement("div");
-  heart.className = "heart";
-  heart.innerHTML = "💖";
-  heart.style.left = Math.random() * 100 + "vw";
-  heart.style.fontSize = (15 + Math.random()*20) + "px";
-  document.body.appendChild(heart);
-  setTimeout(() => heart.remove(), 6000);
-}, 300);
 
-/* NO BUTTON ESCAPE */
-const noBtn = document.getElementById("no");
-const messages = [
-  "Try again 😜",
-  "Not allowed ❌😂",
-  "Oops! Missed me 😏",
-  "Hehe not this easy 💘",
-  "Riya think again 🥹"
-];
+let step=0;
+let timer=15;
+let chosenYes=false;
 
-function moveNo() {
-  alert(messages[Math.floor(Math.random()*messages.length)]);
-  noBtn.style.top = Math.random() * 80 + "vh";
-  noBtn.style.left = Math.random() * 80 + "vw";
+/* Countdown pressure */
+let countdownEl=document.getElementById("countdown");
+let interval=setInterval(()=>{
+  if(timer>=0){
+    countdownEl.innerHTML="⏳ Decide fast... "+timer+"s";
+    timer--;
+  }
+},1000);
+
+/* Floating hearts background */
+setInterval(()=>{
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="💖";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},250);
+
+/* NO button escape */
+function moveNo(){
+  if(chosenYes){
+    alert("Ek baar YES choose kar liya 😌 ab YES hi karo!");
+    return;
+  }
+  alert("Hehe NO allowed nahi 😜");
+  let noBtn=document.getElementById("no");
+  noBtn.style.top=Math.random()*80+"vh";
+  noBtn.style.left=Math.random()*80+"vw";
 }
 
-/* YES CLICK EFFECT */
-function yesClick() {
-  document.body.innerHTML = `
-    <div style="text-align:center; animation: pop 1s;">
-      <h1 style="font-size:3rem;">😍 YAYYYY RIYA 💘</h1>
-      <p style="font-size:1.5rem;">You just made my heart so happy 💓</p>
-      <p style="font-size:1.2rem;">Officially my Valentine ❤️</p>
-    </div>
-  `;
+/* YES logic */
+function yesStep(){
+  chosenYes=true;
+  step++;
 
-  setInterval(() => {
-    const h = document.createElement("div");
-    h.innerHTML = "💖";
-    h.style.position = "absolute";
-    h.style.left = Math.random()*100 + "vw";
-    h.style.top = "100vh";
-    h.style.fontSize = "30px";
-    h.style.animation = "float 4s linear";
+  if(step==1){
+    document.getElementById("question").innerHTML="😳 Sach me haan kar rahi ho?";
+    beep();
+  }
+  else if(step==2){
+    document.getElementById("question").innerHTML="😏 Pakka? Last chance soch lo!";
+    beep();
+  }
+  else if(step==3){
+    document.getElementById("question").innerHTML="🥹 Dil se pooch lo ek baar aur...";
+    beep();
+  }
+  else if(step==4){
+    finalScreen();
+  }
+}
+
+/* Final screen */
+function finalScreen(){
+  clearInterval(interval);
+  document.body.innerHTML=
+  "<h1 style='font-size:3rem; animation:glow 2s infinite alternate;'>💘 THANK YOU RIYA 💘</h1>\
+   <p style='font-size:1.5rem;'>You just made my entire day ❤️</p>";
+  heartBlast();
+}
+
+/* Final heart explosion */
+function heartBlast(){
+  setInterval(()=>{
+    let h=document.createElement("div");
+    h.innerHTML="💘";
+    h.style.position="absolute";
+    h.style.left=Math.random()*100+"vw";
+    h.style.top="100vh";
+    h.style.fontSize="30px";
+    h.style.animation="float 4s linear";
     document.body.appendChild(h);
     setTimeout(()=>h.remove(),4000);
-  }, 150);
+  },150);
 }
+
+/* Simple beep sound */
+function beep(){
+  let ctx=new (window.AudioContext||window.webkitAudioContext)();
+  let osc=ctx.createOscillator();
+  osc.type="sine";
+  osc.frequency.value=600;
+  osc.connect(ctx.destination);
+  osc.start();
+  osc.stop(ctx.currentTime+0.1);
+}
+
 </script>
 
 </body>
