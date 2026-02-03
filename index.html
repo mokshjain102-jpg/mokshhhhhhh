@@ -76,7 +76,7 @@ button{
 <body>
 
 <div class="box" id="box">
-  <h1 id="question">💖 Will you be my Valentine, Riya? 💖</h1>
+  <h1 id="question">💖 Will you be my Valentine, Preeti? 💖</h1>
   <div class="countdown" id="countdown"></div>
   <button id="yes" onclick="yesStep()">YES 💕</button>
   <button id="no" onclick="moveNo()">NO 💔</button>
@@ -88,7 +88,6 @@ let step=0;
 let timer=15;
 let chosenYes=false;
 
-/* Countdown pressure */
 let countdownEl=document.getElementById("countdown");
 let interval=setInterval(()=>{
   if(timer>=0){
@@ -97,7 +96,6 @@ let interval=setInterval(()=>{
   }
 },1000);
 
-/* Floating hearts background */
 setInterval(()=>{
   let h=document.createElement("div");
   h.className="heart";
@@ -107,7 +105,6 @@ setInterval(()=>{
   setTimeout(()=>h.remove(),6000);
 },250);
 
-/* NO button escape */
 function moveNo(){
   if(chosenYes){
     alert("Ek baar YES choose kar liya 😌 ab YES hi karo!");
@@ -119,21 +116,20 @@ function moveNo(){
   noBtn.style.left=Math.random()*80+"vw";
 }
 
-/* YES logic */
 function yesStep(){
   chosenYes=true;
   step++;
 
   if(step==1){
-    document.getElementById("question").innerHTML="😳 Sach me haan kar rahi ho?";
+    document.getElementById("question").innerHTML="😳 Sach me haan kar rahi ho, Preeti?";
     beep();
   }
   else if(step==2){
-    document.getElementById("question").innerHTML="😏 Pakka? Last chance soch lo!";
+    document.getElementById("question").innerHTML="😏 Pakka Preeti? Last chance soch lo!";
     beep();
   }
   else if(step==3){
-    document.getElementById("question").innerHTML="🥹 Dil se pooch lo ek baar aur...";
+    document.getElementById("question").innerHTML="🥹 Dil se pooch lo ek baar aur, Preeti...";
     beep();
   }
   else if(step==4){
@@ -141,16 +137,14 @@ function yesStep(){
   }
 }
 
-/* Final screen */
 function finalScreen(){
   clearInterval(interval);
   document.body.innerHTML=
-  "<h1 style='font-size:3rem; animation:glow 2s infinite alternate;'>💘 THANK YOU RIYA 💘</h1>\
+  "<h1 style='font-size:3rem; animation:glow 2s infinite alternate;'>💘 THANK YOU PREETI 💘</h1>\
    <p style='font-size:1.5rem;'>You just made my entire day ❤️</p>";
   heartBlast();
 }
 
-/* Final heart explosion */
 function heartBlast(){
   setInterval(()=>{
     let h=document.createElement("div");
@@ -165,7 +159,6 @@ function heartBlast(){
   },150);
 }
 
-/* Simple beep sound */
 function beep(){
   let ctx=new (window.AudioContext||window.webkitAudioContext)();
   let osc=ctx.createOscillator();
@@ -180,3 +173,4 @@ function beep(){
 
 </body>
 </html>
+
