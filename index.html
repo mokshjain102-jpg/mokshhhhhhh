@@ -8,78 +8,97 @@
 <style>
 body {
   margin: 0;
-  font-family: Arial;
-  background: #f5f5f5;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f4f3;
 }
 
+/* NAVBAR */
 header {
-  background: #2e7d32;
+  background: #1b5e20;
   color: white;
-  text-align: center;
-  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 30px;
 }
 
 nav a {
   color: white;
   margin: 10px;
   text-decoration: none;
-  font-weight: bold;
 }
 
+/* HERO */
 .hero {
   text-align: center;
-  padding: 50px;
-  background: linear-gradient(to right, #4caf50, #81c784);
+  padding: 60px;
+  background: linear-gradient(to right, #43a047, #66bb6a);
   color: white;
 }
 
 .hero button {
   padding: 15px 25px;
-  font-size: 18px;
-  background: #1b5e20;
-  color: white;
+  background: #0d3b12;
   border: none;
+  color: white;
+  font-size: 18px;
   cursor: pointer;
-  margin-top: 20px;
 }
 
+/* FEATURES */
 .features {
   display: flex;
   justify-content: space-around;
-  padding: 30px;
-  background: white;
-}
-
-.feature {
-  text-align: center;
-}
-
-.demo {
-  text-align: center;
-  padding: 40px;
-}
-
-section {
   padding: 40px;
 }
 
 .card {
   background: white;
   padding: 20px;
-  margin: 10px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* DEMO */
+.demo {
+  text-align: center;
+  padding: 40px;
+}
+
+/* LOGIN */
+.login-box {
+  display: none;
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 30px;
   border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
-.services {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+/* DASHBOARD */
+.dashboard {
+  display: none;
+  padding: 40px;
 }
 
-footer {
+.stats {
+  display: flex;
+  gap: 20px;
+}
+
+.stat {
   background: #2e7d32;
   color: white;
-  text-align: center;
-  padding: 15px;
+  padding: 20px;
+  border-radius: 10px;
+  flex: 1;
+}
+
+/* BUTTON */
+button {
+  cursor: pointer;
 }
 </style>
 </head>
@@ -87,101 +106,102 @@ footer {
 <body>
 
 <header>
-  <h1>🌱 AgroVision</h1>
+  <h2>🌱 AgroVision</h2>
   <nav>
     <a href="#">Home</a>
-    <a href="#about">About</a>
-    <a href="#services">Services</a>
-    <a href="#contact">Contact</a>
+    <a href="#" onclick="openLogin()">Login</a>
+    <a href="#" onclick="showDashboard()">Dashboard</a>
   </nav>
 </header>
 
 <!-- HERO -->
 <div class="hero">
-  <h1>AI-Powered Crop Disease Detection & Smart Farming Assistant</h1>
-  <p>Upload a leaf image and get instant disease diagnosis, treatment, and prevention tips.</p>
-  <button onclick="scrollToDemo()">📸 Scan Your Crop Now</button>
+  <h1>AI Crop Disease Detection</h1>
+  <p>Upload leaf → get instant AI diagnosis</p>
+  <button onclick="scrollToDemo()">📸 Scan Crop</button>
 </div>
 
 <!-- FEATURES -->
 <div class="features">
-  <div class="feature">🌿 Disease Detection</div>
-  <div class="feature">📊 Severity Analysis</div>
-  <div class="feature">🌦 Weather Risk</div>
-  <div class="feature">💊 Smart Treatment</div>
+  <div class="card">🌿 Disease Detection</div>
+  <div class="card">📊 Severity</div>
+  <div class="card">🌦 Weather Risk</div>
+  <div class="card">💊 Treatment</div>
 </div>
 
 <!-- DEMO -->
 <div class="demo" id="demo">
   <h2>Live Demo</h2>
-  <input type="file" onchange="showResult()">
-  <p id="result"></p>
+  <input type="file" onchange="analyze()">
+  <p id="output"></p>
 </div>
 
-<!-- ABOUT -->
-<section id="about">
-  <h2>About</h2>
-  <p><b>Problem:</b> Farmers lose up to 40% crops due to late detection.</p>
-  <p><b>Solution:</b> AgroVision uses AI to detect diseases early.</p>
-  <p><b>Impact:</b> Saves money, helps farmers, increases yield.</p>
+<!-- LOGIN BOX -->
+<div class="login-box" id="loginBox">
+  <h3>Login</h3>
+  <input type="text" placeholder="Username"><br><br>
+  <input type="password" placeholder="Password"><br><br>
+  <button onclick="login()">Login</button>
+</div>
 
-  <h3>Team KrishiAI</h3>
-  <p>ML | Frontend | Backend</p>
-</section>
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboard">
+  <h2>📊 Dashboard</h2>
 
-<!-- SERVICES -->
-<section id="services">
-  <h2>Services</h2>
-
-  <div class="services">
-    <div class="card">🌿 Disease Detection</div>
-    <div class="card">📊 Severity Detection</div>
-    <div class="card">💊 Smart Treatment</div>
-    <div class="card">🌦 Weather Prediction</div>
-    <div class="card">🗣 Voice Assistant (Hindi)</div>
-    <div class="card">📍 Location Advisory</div>
+  <div class="stats">
+    <div class="stat">Total Scans: 120</div>
+    <div class="stat">Diseases Found: 35</div>
+    <div class="stat">Healthy Crops: 85</div>
   </div>
-</section>
 
-<!-- EXTRA FEATURES -->
-<section>
-  <h2>AI Features</h2>
-  <p>🧠 Confidence Score: 92%</p>
-  <p>📸 History Tracking</p>
-  <p>🌱 Prevention Tips</p>
-  <p>📊 Dashboard Coming Soon</p>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <h2>Contact</h2>
-  <p>Email: support@agrovision.ai</p>
-  <p>Phone: 9876543210</p>
-  <p>Location: India</p>
-
-  <button onclick="alert('Quick Help: Check leaves daily, avoid overwatering')">
-    🚜 Get Help Now
-  </button>
-</section>
-
-<footer>
-  <p>AgroVision AI © 2026</p>
-</footer>
+  <h3>📸 Scan History</h3>
+  <ul id="history"></ul>
+</div>
 
 <script>
-function showResult() {
-  document.getElementById("result").innerHTML =
-    "🌿 Disease: Early Blight (92% confidence)<br>💊 Treatment: Use fungicide weekly<br>🌱 Tip: Avoid overwatering";
 
-  // Voice output
+let historyList = [];
+
+function analyze() {
+  let result = "🌿 Early Blight (92%) - Use fungicide";
+  document.getElementById("output").innerHTML = result;
+
+  historyList.push(result);
+  updateHistory();
+
+  // Voice Hindi
   let msg = new SpeechSynthesisUtterance("Aapki fasal mein disease detect hui hai");
   msg.lang = "hi-IN";
   speechSynthesis.speak(msg);
 }
 
+function updateHistory() {
+  let list = document.getElementById("history");
+  list.innerHTML = "";
+  historyList.forEach(item => {
+    let li = document.createElement("li");
+    li.innerText = item;
+    list.appendChild(li);
+  });
+}
+
+function openLogin() {
+  document.getElementById("loginBox").style.display = "block";
+}
+
+function login() {
+  alert("Login Successful");
+  document.getElementById("loginBox").style.display = "none";
+}
+
+function showDashboard() {
+  document.getElementById("dashboard").style.display = "block";
+}
+
 function scrollToDemo() {
   document.getElementById("demo").scrollIntoView({ behavior: "smooth" });
 }
+
 </script>
 
 </body>
