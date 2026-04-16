@@ -1,88 +1,58 @@
-body {
-margin:0;
-font-family:Arial;
-background:#0f172a;
-color:white;
+let history = [];
+
+// SCAN
+function analyze(){
+let file = document.getElementById("file").files[0];
+if(!file){alert("Select image"); return;}
+
+let diseases=["Blight","Leaf Spot","Healthy"];
+let result = diseases[Math.floor(Math.random()*3)];
+
+let text = result + " detected";
+document.getElementById("output").innerText = text;
+
+history.push(text);
 }
 
-header {
-display:flex;
-justify-content:space-between;
-padding:20px;
-background:#020617;
+// CHAT
+function sendMsg(e){
+if(e.key==="Enter"){
+let msg=document.getElementById("chatInput").value;
+handleBot(msg);
+}
 }
 
-nav a {
-color:white;
-margin:10px;
-text-decoration:none;
+function handleBot(msg){
+let reply="Upload image for better result";
+
+if(msg.includes("blight")) reply="Use fungicide";
+if(msg.includes("yellow")) reply="Add fertilizer";
+
+addMsg("You: "+msg);
+addMsg("Bot: "+reply);
+
+// voice reply
+let speech=new SpeechSynthesisUtterance(reply);
+speech.lang="hi-IN";
+speechSynthesis.speak(speech);
 }
 
-.hero {
-height:80vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-background:url("https://images.unsplash.com/photo-1560493676-04071c5f467b") center/cover;
+// VOICE INPUT
+function startVoice(){
+let rec=new (window.SpeechRecognition||window.webkitSpeechRecognition)();
+rec.lang="hi-IN";
+rec.start();
+
+rec.onresult=function(e){
+let text=e.results[0][0].transcript;
+handleBot(text);
+}
 }
 
-.hero button {
-padding:15px;
-background:#22c55e;
-border:none;
-}
-
-.features {
-display:flex;
-justify-content:center;
-gap:20px;
-padding:40px;
-}
-
-.features div {
-background:#1e293b;
-padding:20px;
-border-radius:10px;
-}
-
-#demo {
-text-align:center;
-padding:40px;
-}
-
-/* CHATBOT */
-#chatbot {
-position:fixed;
-right:20px;
-bottom:80px;
-width:280px;
-background:white;
-color:black;
-border-radius:10px;
-display:block;
-}
-
-#chatHeader {
-background:#22c55e;
-padding:10px;
-color:white;
-}
-
-#chatBox {
-height:150px;
-overflow:auto;
-padding:10px;
-}
-
-/* VOICE BUTTON */
-#voiceBtn {
-position:fixed;
-bottom:20px;
-right:20px;
-background:#22c55e;
-padding:15px;
-border-radius:50%;
-cursor:pointer;
-font-size:20px;
+// UI
+function addMsg(text){
+let box=document.getElementById("chatBox");
+let div=document.createElement("div");
+div.innerText=text;
+box.appendChild(div);
 }
